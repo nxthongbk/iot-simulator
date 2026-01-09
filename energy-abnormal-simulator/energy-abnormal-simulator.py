@@ -8,7 +8,7 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
  
 # ===== TOKEN =====
-token_EMP = "EM000013"
+token_EMP = os.getenv("TOKEN_EMP")
 print(token_EMP)
  
 # ===== CẤU HÌNH =====
