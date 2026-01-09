@@ -9,6 +9,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
  
 # ===== TOKEN =====
 token_EMP = "EM000013"
+print(token_EMP)
  
 # ===== CẤU HÌNH =====
 base_power = 120            # W ban ngày
