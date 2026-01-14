@@ -39,5 +39,5 @@ jobs:
           context: ./energy-abnormal-simulator
           file: ./energy-abnormal-simulator/Dockerfile
           push: true
-          tags: nxthongbk/energy-abnormal-simulator:v1
+          tags: nxthongbk/energy-abnormal:latest
       
