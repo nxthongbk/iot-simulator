@@ -40,4 +40,13 @@ jobs:
           file: ./energy-abnormal-simulator/Dockerfile
           push: true
           tags: nxthongbk/energy-abnormal:latest
+
+      - name: Build and push energy-always-abnormal
+        id: build_energy-always-abnormal
+        uses: docker/build-push-action@v2
+        with:
+          context: ./energy-always-abnormal
+          file: ./energy-always-abnormal/Dockerfile
+          push: true
+          tags: nxthongbk/energy-always-abnormal:latest
       
