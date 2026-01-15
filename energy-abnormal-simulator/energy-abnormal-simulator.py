@@ -62,7 +62,7 @@ while True:
     # ===== ENERGY =====
     timestamp = int(datetime.now().timestamp())
  
-    energy_wh = int(timestamp / 13)
+    energy_wh = int(timestamp / 12)
  
     # ===== PAYLOAD =====
     payload = json.dumps({
