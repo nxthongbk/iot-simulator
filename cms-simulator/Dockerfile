@@ -11,4 +11,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD [ "python","-u", "energy-always-abnormal.py"]
+CMD [ "python","-u", "cms-simulator.py"]

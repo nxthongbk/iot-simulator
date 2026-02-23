@@ -1,0 +1,9 @@
+## docker-compose.yml
+version: "3.1"
+
+services:
+  cms:
+    image: nxthongbk/cms-simulator:latest
+    environment:
+      - TOKEN=VMS001
+    restart: on-failure
