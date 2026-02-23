@@ -9,12 +9,13 @@ import os
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
  
 # ===== TOKEN =====
-token_EMP = os.getenv("TOKEN")
+tokens = os.getenv("TOKEN", "")
+token_list = tokens.split(",")
 print(token_EMP)
  
 # ===== CẤU HÌNH =====
 base_power = 120          # W
-interval_sec = 5
+interval_sec = 8
 energy_wh = 15000.0
  
 # ===== PUSH TELEMETRY =====
@@ -36,16 +37,17 @@ def push_telemetry(token, payload):
 while True:
     now = datetime.now()
 
-    try:
-        payload = json.dumps({
-            "fa_signal": random.randint(10, 30),
-            "data_percentBat": random.randint(90, 100),
-            "data_isPower": True
-            })
+    for token in token_list:
+        try:
+            payload = json.dumps({
+                "fa_signal": random.randint(10, 30),
+                "data_percentBat": random.randint(90, 100),
+                "data_isPower": True
+                })
 
-        res = push_telemetry(token, payload)
+            res = push_telemetry(token, payload)
 
-    except Exception as e:
-        print("Push error:", e)
- 
-    time.sleep(interval_sec)
+        except Exception as e:
+            print("Push error:", e)
+     
+        time.sleep(interval_sec)
