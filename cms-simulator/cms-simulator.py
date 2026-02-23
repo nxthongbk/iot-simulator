@@ -20,7 +20,7 @@ energy_wh = 15000.0
  
 # ===== PUSH TELEMETRY =====
 def push_telemetry(token, payload):
-    url = "https://cms.tmainnovation.com.vn/api/device/telemetry/noauth/%s" % token
+    url = "https://cms.tmainnovation.com/api/device/telemetry/noauth/%s" % token
     headers = {
         'Content-Type': 'application/json'
     }
