@@ -11,7 +11,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # ===== TOKEN =====
 tokens = os.getenv("TOKEN", "")
 token_list = tokens.split(",")
-print(token_EMP)
+
  
 # ===== CẤU HÌNH =====
 base_power = 120          # W
