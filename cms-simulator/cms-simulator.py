@@ -70,7 +70,7 @@
 #     #     push_telemetry(token_EMP, payload)
 #     #     print(payload)
 #     #     time.sleep(10)
-
+import requests
 import json
 import random
 import time
