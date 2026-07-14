@@ -56,7 +56,7 @@ while True:
             })
             push_telemetry(token, payload)
             print(payload)
-            time.sleep(10)
+            time.sleep(5)
         except Exception as e:
             print(e)
  
