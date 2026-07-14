@@ -196,3 +196,5 @@ while True:
             # client.publish(topic, payload)
 
             time.sleep(5)
+        except Exception as e:
+#             print(e)
