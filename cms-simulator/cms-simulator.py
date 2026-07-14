@@ -38,7 +38,7 @@ while True:
             payload = json.dumps({
                 "fa_signal": random.randint(10, 30),
                 "data_percentBat": random.randint(90, 100),
-                "data_isPower": True
+                "data_isPower": True,
                 "TotalEnergyConsumption": TotalEnergyConsumption,
                 "GridEnergyConsumption": GridEnergyConsumption,
                 "SolarEnergyGeneration": SolarEnergyGeneration,
