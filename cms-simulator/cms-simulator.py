@@ -181,12 +181,12 @@ while True:
                 "Voltage": round(random.uniform(219, 231), 1),
                 "Current": round(equipment_power * 1000 / 220, 2),
                 "Frequency": round(random.uniform(49.95, 50.05), 2),
-                "PowerFactor": round(random.uniform(0.95, 0.99), 2),
+                "PowerFactor": random.randint(70, 100),
 
                 # Power Quality
-                "VoltageStability": round(random.uniform(97, 100), 1),
-                "HarmonicDistortion": round(random.uniform(1.5, 3.5), 2),
-                "PhaseImbalance": round(random.uniform(0.2, 1.5), 2),
+                "VoltageStability": random.randint(70, 100),
+                "HarmonicDistortion": random.randint(70, 100),
+                "PhaseImbalance": random.randint(70, 100),
 
                 # Environment
                 "Temperature": round(random.uniform(28, 38), 1),
