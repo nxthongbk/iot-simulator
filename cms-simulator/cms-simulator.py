@@ -95,6 +95,15 @@ last_year = datetime.now().year
 
 INTERVAL = 5    # seconds
 
+def push_telemetry(token, payload):
+    url = "https://cms.tmainnovation.com/api/device/telemetry/noauth/%s"%token
+    print(url)
+    headers = {
+      'Content-Type': 'application/json'
+    }
+    response = requests.request("POST", url,headers=headers,  data=payload, verify = False)
+    return response
+
 while True:
     for token in tokens:
         try:
