@@ -164,9 +164,9 @@ while True:
                 "data_isPower": True,
 
                 # Energy
-                "TotalEnergyConsumption": round(TotalEnergyConsumption, 2),
-                "GridEnergyConsumption": round(GridEnergyConsumption, 2),
-                "SolarEnergyGeneration": round(SolarEnergyGeneration, 2),
+                "TotalEnergyConsumption": round(TotalEnergyConsumption, 0),
+                "GridEnergyConsumption": round(GridEnergyConsumption, 0),
+                "SolarEnergyGeneration": round(SolarEnergyGeneration, 0),
 
                 "Daily": round(Daily, 2),
                 "Monthly": round(Monthly, 2),
