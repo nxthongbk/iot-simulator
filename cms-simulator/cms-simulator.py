@@ -47,7 +47,11 @@ def push_telemetry(token, payload):
 while True:
     for token in tokens:
         try:
+            
+            d = devices[token]
             now = datetime.now()
+
+
 
             # --------------------------
             # Reset Counter
