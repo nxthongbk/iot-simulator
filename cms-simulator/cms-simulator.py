@@ -45,10 +45,11 @@ def push_telemetry(token, payload):
     return response
 
 while True:
+
+    devices = {}
     for token in tokens:
         try:
             
-            d = device_profile[token]
             now = datetime.now()
 
 
@@ -73,7 +74,10 @@ while True:
             # --------------------------
             # equipment_power = round(random.uniform(8, 25), 2)  # kW
 
-            min_power, max_power = device_profile[token]
+            min_power = 5
+
+            max_power = 35
+
             equipment_power = round(random.uniform(min_power, max_power), 2)
 
 
@@ -95,22 +99,22 @@ while True:
             # --------------------------
             # Accumulate Energy
             # --------------------------
-            # TotalEnergyConsumption += equipment_energy
-            # GridEnergyConsumption += grid_energy
-            # SolarEnergyGeneration += solar_energy
+            TotalEnergyConsumption += equipment_energy
+            GridEnergyConsumption += grid_energy
+            SolarEnergyGeneration += solar_energy
 
-            # Daily += equipment_energy
-            # Monthly += equipment_energy
-            # Yearly += equipment_energy
+            Daily += equipment_energy
+            Monthly += equipment_energy
+            Yearly += equipment_energy
 
 
-            d["TotalEnergyConsumption"] += equipment_energy
-            d["GridEnergyConsumption"] += grid_energy
-            d["SolarEnergyGeneration"] += solar_energy
+            # d["TotalEnergyConsumption"] += equipment_energy
+            # d["GridEnergyConsumption"] += grid_energy
+            # d["SolarEnergyGeneration"] += solar_energy
 
-            d["Daily"] += equipment_energy
-            d["Monthly"] += equipment_energy
-            d["Yearly"] += equipment_energy
+            # d["Daily"] += equipment_energy
+            # d["Monthly"] += equipment_energy
+            # d["Yearly"] += equipment_energy
 
 
 
@@ -129,9 +133,9 @@ while True:
                 # "GridEnergyConsumption": round(GridEnergyConsumption, 0),
                 # "SolarEnergyGeneration": round(SolarEnergyGeneration, 0),
 
-                "TotalEnergyConsumption": round(d["TotalEnergyConsumption"], 0),
-                "GridEnergyConsumption": round(d["GridEnergyConsumption"], 0),
-                "SolarEnergyGeneration": round(d["SolarEnergyGeneration"], 0),
+                "TotalEnergyConsumption": round(TotalEnergyConsumption, 0),
+                "GridEnergyConsumption": round(GridEnergyConsumption, 0),
+                "SolarEnergyGeneration": round(SolarEnergyGeneration, 0),
 
                 "Daily": round(d["Daily"], 2),
                 "Monthly": round(d["Monthly"], 2),
@@ -159,9 +163,9 @@ while True:
                 "Humidity": round(random.uniform(45, 75), 1),
 
                 # Sustainability
-                "CoalSaved": round(d["SolarEnergyGeneration"] * 0.404, 2),
-                "CO2Reduction": round(d["SolarEnergyGeneration"] * 0.85, 2),
-                "EquivalentTrees": int(d["SolarEnergyGeneration"] * 0.04),
+                "CoalSaved": round(SolarEnergyGeneration * 0.404, 2),
+                "CO2Reduction": round(SolarEnergyGeneration * 0.85, 2),
+                "EquivalentTrees": int(SolarEnergyGeneration * 0.04),
 
             })
 
