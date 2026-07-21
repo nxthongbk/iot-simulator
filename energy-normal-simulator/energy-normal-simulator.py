@@ -1,5 +1,4 @@
 import json
-import os
 import random
 import time
 from datetime import datetime
@@ -7,123 +6,137 @@ from datetime import datetime
 DATA_DIR = "data"
 STATE_FILE = os.path.join(DATA_DIR, "state.json")
 
-DEVICE_IDS = [
-    "ESG001",
-    "ESG002",
-    "ESG003"
-]
-
-SAVE_INTERVAL = 30      # ghi file mỗi 30 giây
-SEND_INTERVAL = 1       # mô phỏng mỗi 1 giây
-
 os.makedirs(DATA_DIR, exist_ok=True)
 
 
 def create_default_state():
-    devices = {}
-
     now = datetime.now()
 
-    for device in DEVICE_IDS:
-        devices[device] = {
-            "voltage": 0,
-            "current": 0,
-            "power": 0,
-            "pf": 0,
-            "frequency": 50,
-            "energy_total": 0,
-            "energy_today": 0,
-            "energy_month": 0,
-            "day": now.strftime("%Y-%m-%d"),
-            "month": now.strftime("%Y-%m"),
-            "last_update": ""
-        }
+    return {
+        "fa_signal": 25,
+        "data_percentBat": 98,
+        "data_isPower": True,
 
-    return {"devices": devices}
+        "TotalEnergyConsumption": 12560.0,
+        "GridEnergyConsumption": 8200.0,
+        "SolarEnergyGeneration": 4360.0,
 
+        "Daily": 85.04,
+        "Monthly": 1830.04,
+        "Yearly": 25460.04,
+
+        "EquipmentPower": 24.39,
+        "SolarPower": 0,
+        "GridPower": 24.39,
+
+        "Voltage": 221.4,
+        "Current": 110.86,
+        "Frequency": 49.96,
+        "PowerFactor": 90,
+
+        "VoltageStability": 81,
+        "HarmonicDistortion": 93,
+        "PhaseImbalance": 85,
+
+        "Temperature": 33.8,
+        "Humidity": 47.1,
+
+        "CoalSaved": 1761.44,
+        "CO2Reduction": 3706.0,
+        "EquivalentTrees": 174,
+
+        "last_day": now.strftime("%Y-%m-%d"),
+        "last_month": now.strftime("%Y-%m")
+    }
 
 def load_state():
-
     if not os.path.exists(STATE_FILE):
         state = create_default_state()
         save_state(state)
         return state
 
     with open(STATE_FILE, "r") as f:
+        print(json.load(f))
         return json.load(f)
 
 
 def save_state(state):
 
-    tmp = STATE_FILE + ".tmp"
-
-    with open(tmp, "w") as f:
+    with open(STATE_FILE, "w") as f:
         json.dump(state, f, indent=4)
 
-    os.replace(tmp, STATE_FILE)
 
-
-state = load_state()
-
-last_save = time.time()
-
-while True:
+def update_state(state):
 
     now = datetime.now()
 
     today = now.strftime("%Y-%m-%d")
     month = now.strftime("%Y-%m")
 
-    for device, data in state["devices"].items():
+    # Reset Daily
+    if state["last_day"] != today:
+        state["Daily"] = 0
+        state["last_day"] = today
 
-        # reset daily
-        if data["day"] != today:
-            data["energy_today"] = 0
-            data["day"] = today
+    # Reset Monthly
+    if state["last_month"] != month:
+        state["Monthly"] = 0
+        state["last_month"] = month
 
-        # reset monthly
-        if data["month"] != month:
-            data["energy_month"] = 0
-            data["month"] = month
+    #################################
+    # Simulate
+    #################################
 
-        #####################################
-        # simulate
-        #####################################
+    voltage = round(random.uniform(220, 225), 1)
+    current = round(random.uniform(80, 120), 2)
+    pf = random.randint(88, 98)
 
-        voltage = round(random.uniform(220, 235), 1)
+    power = round(voltage * current * pf / 100 / 1000, 2)   # kW
 
-        current = round(random.uniform(2, 8), 2)
+    delta = power / 3600      # kWh / giây
 
-        pf = round(random.uniform(0.90, 0.99), 2)
+    state["Voltage"] = voltage
+    state["Current"] = current
+    state["PowerFactor"] = pf
+    state["Frequency"] = round(random.uniform(49.95, 50.05), 2)
 
-        power = voltage * current * pf
+    state["EquipmentPower"] = power
+    state["GridPower"] = power
+    state["SolarPower"] = 0
 
-        # kWh trong 1 giây
-        delta = power / 1000 / 3600
+    state["Temperature"] = round(random.uniform(30, 38), 1)
+    state["Humidity"] = round(random.uniform(40, 60), 1)
 
-        data["voltage"] = voltage
-        data["current"] = current
-        data["pf"] = pf
-        data["frequency"] = 50.0
-        data["power"] = round(power, 2)
+    state["VoltageStability"] = random.randint(80, 100)
+    state["HarmonicDistortion"] = random.randint(90, 100)
+    state["PhaseImbalance"] = random.randint(80, 100)
 
-        data["energy_total"] += delta
-        data["energy_today"] += delta
-        data["energy_month"] += delta
+    state["fa_signal"] = random.randint(20, 30)
+    state["data_percentBat"] = random.randint(95, 100)
 
-        data["last_update"] = now.isoformat()
+    state["TotalEnergyConsumption"] += delta
+    state["GridEnergyConsumption"] += delta
 
-        print(
-            device,
-            f"P={power:.1f}W",
-            f"Today={data['energy_today']:.3f}",
-            f"Month={data['energy_month']:.3f}",
-            f"Total={data['energy_total']:.3f}"
-        )
+    state["Daily"] += delta
+    state["Monthly"] += delta
+    state["Yearly"] += delta
 
-    if time.time() - last_save >= SAVE_INTERVAL:
-        save_state(state)
-        last_save = time.time()
-        print("State saved.")
+    state["CoalSaved"] = round(state["TotalEnergyConsumption"] * 0.14, 2)
+    state["CO2Reduction"] = round(state["TotalEnergyConsumption"] * 0.295, 2)
+    state["EquivalentTrees"] = int(state["CO2Reduction"] / 21.4)
 
-    time.sleep(SEND_INTERVAL)
+    return state
+while True:
+   state = load_state()
+
+    # # ============================
+    # # STEP 2 : Update
+    # # ============================
+
+    # state = update_state(state)
+
+    # # ============================
+    # # STEP 3 : Save
+    # # ============================
+
+    # save_state(state)
