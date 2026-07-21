@@ -48,7 +48,7 @@ while True:
     for token in tokens:
         try:
             
-            d = devices[token]
+            d = device_profile[token]
             now = datetime.now()
 
 
