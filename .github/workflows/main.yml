@@ -49,12 +49,20 @@ jobs:
       #     file: ./energy-always-abnormal/Dockerfile
       #     push: true
       #     tags: nxthongbk/energy-always-abnormal:latest
-      - name: Build and push cms-simulator
-        id: cms-simulator
+      # - name: Build and push cms-simulator
+      #   id: cms-simulator
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: ./cms-simulator
+      #     file: ./cms-simulator/Dockerfile
+      #     push: true
+      #     tags: nxthongbk/cms-simulator:latest
+      - name: Build and push normal
+        id: energy_normal-simulator
         uses: docker/build-push-action@v2
         with:
-          context: ./cms-simulator
-          file: ./cms-simulator/Dockerfile
+          context: ./energy_normal-simulator
+          file: ./energy_normal-simulator/Dockerfile
           push: true
-          tags: nxthongbk/cms-simulator:latest
+          tags: nxthongbk/energy_normal-simulator:latest
       
