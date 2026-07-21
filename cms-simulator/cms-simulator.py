@@ -1,75 +1,3 @@
-# import requests
-# import json
-# import time
-# import random
-# from datetime import datetime
-# import warnings
-# warnings.filterwarnings("ignore")
-# tokens = [
-# "ESG001","ESG002","ESG003","ESG004","ESG005","ESG006"
-# ]
-# # token_EMPs = [
-# # "EM000011",
-# # "EM000012",
-# # "EM000013",
-# # "EM000014",
-# # "EM000015",
-# # "EM000016"
-# # ]
-# Schedule = ["Scheduled","Auto","AlwaysOn","Manual","Smart"]
-# def push_telemetry(token, payload):
-#     url = "https://cms.tmainnovation.com/api/device/telemetry/noauth/%s"%token
-#     print(url)
-#     headers = {
-#       'Content-Type': 'application/json'
-#     }
-#     response = requests.request("POST", url,headers=headers,  data=payload, verify = False)
-#     return response
-# while True:
-#     for token in tokens:
-#         try:
-#             GridEnergyConsumption = random.randint(1000, 3000)
-#             SolarEnergyGeneration = random.randint(1000, 3000)
-#             TotalEnergyConsumption = GridEnergyConsumption + SolarEnergyGeneration
-#             Daily = random.randint(600, 1000)
-#             Monthly = Daily *30
-#             Yearly = Monthly *12
- 
-#             payload = json.dumps({
-#                 "fa_signal": random.randint(10, 30),
-#                 "data_percentBat": random.randint(90, 100),
-#                 "data_isPower": True,
-#                 "TotalEnergyConsumption": TotalEnergyConsumption,
-#                 "GridEnergyConsumption": GridEnergyConsumption,
-#                 "SolarEnergyGeneration": SolarEnergyGeneration,
-#                 "Daily": Daily,
-#                 "Monthly":Monthly,
-#                 "Yearly":Yearly,
-#                 "Equipment": random.randint(1000, 3000),
-#                 "PowerFactor": random.randint(0, 100),
-#                 "VoltageStability": random.randint(0, 100),
-#                 "HarmonicDistortion": random.randint(0, 100),
-#                 "PhaseImbalance": random.randint(0, 100),
-#                 "Coal": random.randint(90, 100),
-#                 "Co2": random.randint(1000, 3000),
-#                 "Trees": random.randint(1000, 3000)
-#             })
-#             push_telemetry(token, payload)
-#             print(payload)
-#             time.sleep(5)
-#         except Exception as e:
-#             print(e)
- 
-#     # for token_EMP in token_EMPs:
-#     #     payload = json.dumps({
-#     #         "TotalActiveEnergy": int(datetime.now().timestamp() *1000),
-#     #         "TotalActivePower" : random.randint(100, 120),
-#     #         "PowerFactor": random.randint(70, 100),
-#     #         "Schedule": random.choice(Schedule)
-#     #     })
-#     #     push_telemetry(token_EMP, payload)
-#     #     print(payload)
-#     #     time.sleep(10)
 import requests
 import json
 import random
@@ -77,6 +5,18 @@ import time
 from datetime import datetime
 
 tokens = ["ESG001","ESG002","ESG003","ESG004","ESG005","ESG006"]
+
+device_profile = {
+    "ESG001": (5, 10),
+    "ESG002": (8, 15),
+    "ESG003": (10, 18),
+    "ESG004": (15, 25),
+    "ESG005": (20, 35),
+    "ESG006": (30, 50),
+}
+
+
+
 
 # ==========================
 # Initial Value
@@ -127,7 +67,12 @@ while True:
             # --------------------------
             # Simulate Equipment Power
             # --------------------------
-            equipment_power = round(random.uniform(8, 25), 2)  # kW
+            # equipment_power = round(random.uniform(8, 25), 2)  # kW
+
+            min_power, max_power = device_profile[token]
+            equipment_power = round(random.uniform(min_power, max_power), 2)
+
+
 
             # Solar production during daytime
             if 6 <= now.hour <= 17:
@@ -146,13 +91,25 @@ while True:
             # --------------------------
             # Accumulate Energy
             # --------------------------
-            TotalEnergyConsumption += equipment_energy
-            GridEnergyConsumption += grid_energy
-            SolarEnergyGeneration += solar_energy
+            # TotalEnergyConsumption += equipment_energy
+            # GridEnergyConsumption += grid_energy
+            # SolarEnergyGeneration += solar_energy
 
-            Daily += equipment_energy
-            Monthly += equipment_energy
-            Yearly += equipment_energy
+            # Daily += equipment_energy
+            # Monthly += equipment_energy
+            # Yearly += equipment_energy
+
+
+            d["TotalEnergyConsumption"] += equipment_energy
+            d["GridEnergyConsumption"] += grid_energy
+            d["SolarEnergyGeneration"] += solar_energy
+
+            d["Daily"] += equipment_energy
+            d["Monthly"] += equipment_energy
+            d["Yearly"] += equipment_energy
+
+
+
 
             # --------------------------
             # Build Payload
@@ -164,13 +121,18 @@ while True:
                 "data_isPower": True,
 
                 # Energy
-                "TotalEnergyConsumption": round(TotalEnergyConsumption, 0),
-                "GridEnergyConsumption": round(GridEnergyConsumption, 0),
-                "SolarEnergyGeneration": round(SolarEnergyGeneration, 0),
+                # "TotalEnergyConsumption": round(TotalEnergyConsumption, 0),
+                # "GridEnergyConsumption": round(GridEnergyConsumption, 0),
+                # "SolarEnergyGeneration": round(SolarEnergyGeneration, 0),
 
-                "Daily": round(Daily, 2),
-                "Monthly": round(Monthly, 2),
-                "Yearly": round(Yearly, 2),
+                "TotalEnergyConsumption": round(d["TotalEnergyConsumption"], 0),
+                "GridEnergyConsumption": round(d["GridEnergyConsumption"], 0),
+                "SolarEnergyGeneration": round(d["SolarEnergyGeneration"], 0),
+
+                "Daily": round(d["Daily"], 2),
+                "Monthly": round(d["Monthly"], 2),
+                "Yearly": round(d["Yearly"], 2),
+
 
                 # Instant Power
                 "EquipmentPower": equipment_power,
@@ -193,9 +155,10 @@ while True:
                 "Humidity": round(random.uniform(45, 75), 1),
 
                 # Sustainability
-                "CoalSaved": round(SolarEnergyGeneration * 0.404, 2),
-                "CO2Reduction": round(SolarEnergyGeneration * 0.85, 2),
-                "EquivalentTrees": int(SolarEnergyGeneration * 0.04)
+                "CoalSaved": round(d["SolarEnergyGeneration"] * 0.404, 2),
+                "CO2Reduction": round(d["SolarEnergyGeneration"] * 0.85, 2),
+                "EquivalentTrees": int(d["SolarEnergyGeneration"] * 0.04),
+
             })
 
             print(payload)
