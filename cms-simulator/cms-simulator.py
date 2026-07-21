@@ -137,9 +137,9 @@ while True:
                 "GridEnergyConsumption": round(GridEnergyConsumption, 0),
                 "SolarEnergyGeneration": round(SolarEnergyGeneration, 0),
 
-                "Daily": round(d["Daily"], 2),
-                "Monthly": round(d["Monthly"], 2),
-                "Yearly": round(d["Yearly"], 2),
+                "Daily": round(Daily, 2),
+                "Monthly": round(Monthly, 2),
+                "Yearly": round(Yearly, 2),
 
 
                 # Instant Power
