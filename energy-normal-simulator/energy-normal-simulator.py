@@ -2,12 +2,23 @@ import json
 import random
 import time
 from datetime import datetime
+import os
 
-DATA_DIR = "data"
+DATA_DIR = "D:/GIT/iot-simulator/energy-normal-simulator"
 STATE_FILE = os.path.join(DATA_DIR, "state.json")
+token_EMP = os.getenv("TOKEN_EMP")
+
 
 os.makedirs(DATA_DIR, exist_ok=True)
 
+def push_telemetry(token, payload):
+    url = "https://cms.tmainnovation.com/api/device/telemetry/noauth/%s"%token
+    print(url)
+    headers = {
+      'Content-Type': 'application/json'
+    }
+    response = requests.request("POST", url,headers=headers,  data=payload, verify = False)
+    return response
 
 def create_default_state():
     now = datetime.now()
@@ -50,21 +61,24 @@ def create_default_state():
     }
 
 def load_state():
+
     if not os.path.exists(STATE_FILE):
         state = create_default_state()
         save_state(state)
         return state
 
     with open(STATE_FILE, "r") as f:
-        print(json.load(f))
-        return json.load(f)
+        state = json.load(f)
+        push_telemetry(token_EMP, state)
 
+    print(state)
+
+    return state
 
 def save_state(state):
 
     with open(STATE_FILE, "w") as f:
         json.dump(state, f, indent=4)
-
 
 def update_state(state):
 
@@ -128,6 +142,11 @@ def update_state(state):
     return state
 while True:
    state = load_state()
+
+   update_state(state)
+
+   save_state(state)
+   time.sleep(10)
 
     # # ============================
     # # STEP 2 : Update

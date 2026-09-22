@@ -1,36 +1,28 @@
 {
-    "fa_signal": 25,
-    "data_percentBat": 98,
+    "fa_signal": 26,
+    "data_percentBat": 99,
     "data_isPower": true,
-
-    "TotalEnergyConsumption": 12560.0,
-    "GridEnergyConsumption": 8200.0,
+    "TotalEnergyConsumption": 12560.224002777777,
+    "GridEnergyConsumption": 8200.224002777777,
     "SolarEnergyGeneration": 4360.0,
-
-    "Daily": 85.04,
-    "Monthly": 1830.04,
-    "Yearly": 25460.04,
-
-    "EquipmentPower": 24.39,
+    "Daily": 85.26400277777779,
+    "Monthly": 1830.264002777778,
+    "Yearly": 25460.26400277778,
+    "EquipmentPower": 24.69,
     "SolarPower": 0,
-    "GridPower": 24.39,
-
-    "Voltage": 221.4,
-    "Current": 110.86,
-    "Frequency": 49.96,
-    "PowerFactor": 90,
-
-    "VoltageStability": 81,
-    "HarmonicDistortion": 93,
-    "PhaseImbalance": 85,
-
-    "Temperature": 33.8,
-    "Humidity": 47.1,
-
-    "CoalSaved": 1761.44,
-    "CO2Reduction": 3706.0,
-    "EquivalentTrees": 174,
-
+    "GridPower": 24.69,
+    "Voltage": 224.0,
+    "Current": 118.53,
+    "Frequency": 49.99,
+    "PowerFactor": 93,
+    "VoltageStability": 92,
+    "HarmonicDistortion": 90,
+    "PhaseImbalance": 84,
+    "Temperature": 32.4,
+    "Humidity": 52.8,
+    "CoalSaved": 1758.43,
+    "CO2Reduction": 3705.27,
+    "EquivalentTrees": 173,
     "last_day": "2026-07-21",
     "last_month": "2026-07"
 }
