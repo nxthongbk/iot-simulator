@@ -1,10 +1,10 @@
 FROM python:3.11-slim
 
-WORKDIR /SampleDataGeneratorARM
+WORKDIR /SampleDataGeneratorDGT
 
-COPY ./SampleDataGeneratorARM/requirements.txt .
+COPY ./SampleDataGeneratorDGT/requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY ./SampleDataGeneratorARM/sample.py /SampleDataGeneratorARM/sample.py
+COPY ./SampleDataGeneratorDGT/sample.py /SampleDataGeneratorDGT/sample.py
 
 CMD ["python", "-u", "sample.py"]
