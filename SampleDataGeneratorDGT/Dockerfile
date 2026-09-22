@@ -5,6 +5,6 @@ WORKDIR /SampleDataGeneratorDGT
 COPY ./SampleDataGeneratorDGT/requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY ./SampleDataGeneratorDGT/sample.py /SampleDataGeneratorDGT/sample.py
+COPY . .
 
 CMD ["python", "-u", "sample.py"]
