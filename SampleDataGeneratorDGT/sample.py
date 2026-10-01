@@ -78,8 +78,8 @@ while True:
 
             time.sleep(3)
 
-        # if i == 10000:
-        #     i =1 
+        if i > 10000:
+            i =1 
         # for token in tokens2:
         
         #     url = "https://dgt.tmainnovation.com/api/device/alarm/noauth/"+ str(token)
