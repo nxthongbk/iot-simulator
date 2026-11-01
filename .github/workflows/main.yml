@@ -89,4 +89,12 @@ jobs:
           file: ./GNET-device-simulator/Dockerfile
           push: true
           tags: nxthongbk/gnet-device-simulator:latest
+      - name: Build and push GNET-device-simulator-DEV-260923-000000003
+        id: GNET-device-simulator-DEV-260923-000000003
+        uses: docker/build-push-action@v2
+        with:
+          context: ./GNET-device-simulator-DEV-260923-000000003
+          file: ./GNET-device-simulator-DEV-260923-000000003/Dockerfile
+          push: true
+          tags: nxthongbk/GNET-device-simulator-DEV-260923-000000003:latest
       

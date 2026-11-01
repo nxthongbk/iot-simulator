@@ -1,0 +1,4 @@
+requests==2.26.0
+schedule
+python-dotenv==1.0.1
+paho-mqtt
