@@ -96,5 +96,5 @@ jobs:
           context: ./GNET-device-simulator-DEV-260923-000000003
           file: ./GNET-device-simulator-DEV-260923-000000003/Dockerfile
           push: true
-          tags: nxthongbk/GNET-device-simulator-DEV-260923-000000003:latest
+          tags: nxthongbk/gnet-device-simulator-dev-260923-000000003:latest
       

@@ -5,6 +5,6 @@ services:
   gnet-simulator:
     image: nxthongbk/gnet-device-simulator:latest
     restart: on-failure
-  gnet-device-simulator-DEV-260923-000000003:
+  GNET-device-simulator-DEV-260923-000000003:
     image: nxthongbk/gnet-device-simulator-DEV-260923-000000003:latest
     restart: on-failure
