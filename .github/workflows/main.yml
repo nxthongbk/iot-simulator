@@ -117,4 +117,3 @@ jobs:
           file: ./DEV-261006-000000020/Dockerfile
           push: true
           tags: nxthongbk/gnet-device-simulator-dev-261006-000000020:latest
-      
