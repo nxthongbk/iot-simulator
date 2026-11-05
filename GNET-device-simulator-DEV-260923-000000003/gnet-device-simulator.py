@@ -12,6 +12,9 @@ port = 8883
 device_id = "DEV-260923-000000003"
 
 
+gas_price=0
+electric_price=0
+
 telemetry_topic = f"device/{device_id}/telemetry"
 attribute_topic = f"device/{device_id}/attribute/downlink"
 
@@ -38,9 +41,13 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, msg):
-    print("Received:")
-    print("  Topic:", msg.topic)
-    print("  Payload:", msg.payload.decode())
+    # print("Received:")
+    # print("  Topic:", msg.topic)
+    # print("  Payload:", msg.payload.decode())
+    message =  msg.payload.decode()
+    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {message}", flush=True)
+
+
 
 
 def on_disconnect(client, userdata, rc):
@@ -213,13 +220,14 @@ try:
         )
 
         if result.rc == mqtt.MQTT_ERR_SUCCESS:
-            print("Sent:")
-            print("Topic:", telemetry_topic)
-            print("Payload:", payload)
+            print(".")
+            # print("Sent:")
+            # print("Topic:", telemetry_topic)
+            # print("Payload:", payload)
         else:
             print("Publish failed, rc =", result.rc)
 
-        time.sleep(5)
+        time.sleep(30)
 
 except KeyboardInterrupt:
 
