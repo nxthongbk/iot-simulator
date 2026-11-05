@@ -11,7 +11,7 @@ from datetime import datetime, time as dt_time
 # MQTT CONFIG
 # ============================================================
 
-MQTT_HOST = "103.108.136.79"
+MQTT_HOST = "10.254.1.79"
 MQTT_PORT = 1883
 
 MQTT_USERNAME = "admin"
