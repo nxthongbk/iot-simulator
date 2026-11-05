@@ -73,14 +73,14 @@ jobs:
       #     file: ./SampleDataGeneratorDGT/Dockerfile
       #     push: true
       #     tags: nxthongbk/dgt-simulator:latest
-      - name: Build and push normal
-        id: SampleDataGeneratorPDM
-        uses: docker/build-push-action@v2
-        with:
-          context: ./SampleDataGeneratorPDM
-          file: ./SampleDataGeneratorPDM/Dockerfile
-          push: true
-          tags: nxthongbk/pdm-simulator:latest
+      # - name: Build and push normal
+      #   id: SampleDataGeneratorPDM
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: ./SampleDataGeneratorPDM
+      #     file: ./SampleDataGeneratorPDM/Dockerfile
+      #     push: true
+      #     tags: nxthongbk/pdm-simulator:latest
 
       # run on cms system
       # - name: Build and push GNET_DEVICE_SIMULATOR
@@ -99,4 +99,13 @@ jobs:
       #     file: ./GNET-device-simulator-DEV-260923-000000003/Dockerfile
       #     push: true
       #     tags: nxthongbk/gnet-device-simulator-dev-260923-000000003:latest
+
+      - name: Build and push GNET-device-simulator-DEV-260923-000000003
+        id: GNET-device-simulator-DEV-260923-000000003
+        uses: docker/build-push-action@v2
+        with:
+          context: ./DEV-261030-000000030
+          file: ./DEV-261030-000000030/Dockerfile
+          push: true
+          tags: nxthongbk/gnet-device-simulator-dev-261030-000000030:latest
       
