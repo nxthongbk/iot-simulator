@@ -201,7 +201,11 @@ def generate_telemetry():
             "heat_pump": "ON",
             "gas_furnace": "OFF",
             "is_connected": True
-        }
+        },
+        "onboard_sensor": {
+              "temp": round(random.uniform(23.0, 28.0), 1),
+              "hum": round(random.uniform(50.0, 70.0), 1),
+           }
     }
 
     # Store generated outdoor sensor value
