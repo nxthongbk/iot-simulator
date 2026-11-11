@@ -723,10 +723,10 @@ def publish_heating_source_config(heating_source):
         return False
 
     source_mapping = {
-        "HEAT_PUMP": "HP_HEAT",
-        "GAS": "FURNACE_HEAT"
-    }
-
+        "HP_HEAT": "HP_HEAT",
+        "COOLING": "COOLING",
+        "FURNACE_HEAT": "FURNACE_HEAT"
+}
     edge_source = source_mapping.get(heating_source)
 
     if edge_source is None:
