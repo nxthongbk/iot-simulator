@@ -198,8 +198,6 @@ def generate_telemetry():
                 "hum": 60,
                 "temp": 29
             },
-            "heat_pump": "ON",
-            "gas_furnace": "OFF",
             "is_connected": True
         },
         "onboard_sensor": {
