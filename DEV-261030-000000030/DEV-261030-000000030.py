@@ -197,8 +197,7 @@ def generate_telemetry():
             "mau": {
                 "hum": 60,
                 "temp": 29
-            },
-            "is_connected": True
+            }
         },
         "onboard_sensor": {
               "temp": round(random.uniform(23.0, 28.0), 1),
