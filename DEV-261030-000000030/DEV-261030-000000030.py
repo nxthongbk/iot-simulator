@@ -281,51 +281,67 @@ def interpolate_curve(curve, oat, value_key):
 def update_hvac_curves(data):
 
     if not isinstance(data, dict):
+        print("[HVAC] Invalid HVAC data")
         return
 
-    hvac_list = data.get("hvac", [])
+    hvac = data.get("hvac", {})
 
-    if not isinstance(hvac_list, list):
-        print("[HVAC] Invalid HVAC performance data")
+    if not isinstance(hvac, dict):
+        print("[HVAC] Invalid HVAC structure")
         return
 
     new_curves = {}
 
-    for equipment in hvac_list:
+    # =================================
+    # ELECTRIC HEAT PUMP
+    # =================================
 
-        equipment_type = str(
-            equipment.get("type", "")
-        ).upper()
+    electric_data = hvac.get("ELECTRIC", [])
 
-        performance_curve = equipment.get(
-            "performance_curve", []
-        )
+    if isinstance(electric_data, list) and electric_data:
 
-        if equipment_type not in ["ELECTRIC", "GAS"]:
-            continue
-
-        if not isinstance(performance_curve, list):
-            continue
-
-        new_curves[equipment_type] = {
-            "maximum_heating_capacity": safe_float(
-                equipment.get("maximum_heating_capacity")
-            ),
-            "performance_curve": performance_curve
+        new_curves["ELECTRIC"] = {
+            "performance_curve": electric_data
         }
+
+    # =================================
+    # GAS FURNACE
+    # =================================
+
+    gas_data = hvac.get("GAS", [])
+
+    if isinstance(gas_data, list) and gas_data:
+
+        gas = gas_data[0]
+
+        new_curves["GAS"] = {
+            "min_oat": safe_float(gas.get("min_oat")),
+            "max_oat": safe_float(gas.get("max_oat")),
+            "maximum_heating_capacity": safe_float(
+                gas.get("maximum_heating_capacity")
+            ),
+            "efficiency": safe_float(
+                gas.get("efficiency")
+            )
+        }
+
+    # =================================
+    # UPDATE
+    # =================================
 
     if new_curves:
 
         with data_lock:
             low_cost_data["hvac_curves"].update(new_curves)
 
-        print(
-            "[HVAC] Performance curves updated:",
-            list(new_curves.keys())
-        )
+        print("\n========== HVAC UPDATED ==========")
+
+        for key, value in new_curves.items():
+            print(key, ":", value)
+
+        print("==================================\n")
 
     else:
-
         print("[HVAC] No valid performance curves received")
 
 
@@ -488,13 +504,18 @@ def calculate_low_cost():
     # Get Gas Efficiency from GAS curve
     # --------------------------------------
 
-    gas_curve = gas.get("performance_curve", [])
+    gas_eff_percent = gas.get("efficiency")
 
-    gas_eff_percent = interpolate_curve(
-        gas_curve,
-        oat,
-        "efficiency"
-    )
+    min_oat = gas.get("min_oat")
+    max_oat = gas.get("max_oat")
+
+    if min_oat is not None and oat < min_oat:
+        print("[LOW-COST] OAT below GAS operating range")
+        return None
+
+    if max_oat is not None and oat > max_oat:
+        print("[LOW-COST] OAT above GAS operating range")
+        return None
 
     if ecop is None or gas_eff_percent is None:
 
@@ -608,58 +629,29 @@ def process_downlink(payload):
     if not isinstance(data, dict):
         return
 
-    # ======================================
-    # ENERGY RATE RESPONSE
-    # ======================================
-
+    # ENERGY RATE
     if isinstance(data.get("energy_rate"), dict):
-
-        print("[DOWNLINK] Energy rate received")
 
         update_energy_rate(data)
 
-        calculate_low_cost()
-
-    # ======================================
-    # HVAC PERFORMANCE CURVE RESPONSE
-    # ======================================
-
-    if isinstance(data.get("hvac"), list):
-
-        print("[DOWNLINK] HVAC performance curves received")
-
-        update_hvac_curves(data)
-
-        calculate_low_cost()
-
-    # ======================================
-    # SEASON RESPONSE
-    # ======================================
-
-    if isinstance(data.get("season"), dict):
-
-        print("[DOWNLINK] Season received")
-
-        update_season(data["season"])
-
-    elif data.get("type") == "season":
-
-        print("[DOWNLINK] Season received")
+    # SEASON
+    if isinstance(data.get("season"), str):
 
         update_season(data)
 
-    # ======================================
-    # ALTERNATIVE RESPONSE FORMAT
-    # ======================================
-
-    elif data.get("type") == "hvac":
-
-        print("[DOWNLINK] HVAC received")
+    # HVAC
+    if isinstance(data.get("hvac"), dict):
 
         update_hvac_curves(data)
 
-        calculate_low_cost()
+    # Recalculate after receiving configuration
+    if (
+        data.get("energy_rate") is not None
+        or data.get("season") is not None
+        or data.get("hvac") is not None
+    ):
 
+        calculate_low_cost()
 
 # ==================================================
 # GENERATE REQUEST
