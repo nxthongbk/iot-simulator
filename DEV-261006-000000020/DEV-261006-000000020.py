@@ -197,7 +197,10 @@ def generate_telemetry():
             "mau": {
                 "hum": 60,
                 "temp": 29
-            }
+            },
+            "heat_pump": heat_pump,
+            "gas_furnace": gas_furnace,
+            "is_connected": True
         },
         "onboard_sensor": {
               "temp": round(random.uniform(23.0, 28.0), 1),

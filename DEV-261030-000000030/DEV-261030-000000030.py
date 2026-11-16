@@ -204,7 +204,7 @@ def generate_telemetry():
             },
             "heat_pump": heat_pump,
             "gas_furnace": gas_furnace,
-            "is_connected": true
+            "is_connected": True
 
             },
         "onboard_sensor": {
