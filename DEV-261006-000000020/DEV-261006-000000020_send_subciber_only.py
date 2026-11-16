@@ -36,6 +36,11 @@ CA_CERTFILE = os.path.join(CERTS_DIR, "sfscm.pem")
 telemetry_topic = f"device/{DEVICE_ID}/telemetry"
 downlink_topic = f"device/{DEVICE_ID}/attribute/downlink"
 
+
+heat_pump = "ON"
+gas_furnace = "OFF"
+
+
 PUBLISH_INTERVAL = 30
 
 # ==========================================

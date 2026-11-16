@@ -557,11 +557,15 @@ def calculate_low_cost():
 
         heating_source = "HP_HEAT"
         reason = "Electric heating has lower operating cost"
+        heat_pump = "ON"
+        gas_furnace = "OFF"
 
     elif A < B:
 
         heating_source = "FURNACE_HEAT"
         reason = "Gas heating has lower operating cost"
+        heat_pump = "OFF"
+        gas_furnace = "ON"
 
     else:
 

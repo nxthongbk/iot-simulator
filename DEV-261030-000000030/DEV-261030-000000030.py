@@ -34,6 +34,10 @@ CERTFILE = os.path.join(CERTS_DIR, f"{CERT_ID}.crt")
 KEYFILE = os.path.join(CERTS_DIR, f"{CERT_ID}.key")
 CA_CERTFILE = os.path.join(CERTS_DIR, "sfscm.pem")
 
+heat_pump = "ON"
+gas_furnace = "OFF"
+
+
 
 # ==================================================
 # MQTT TOPICS
@@ -197,8 +201,12 @@ def generate_telemetry():
             "mau": {
                 "hum": 60,
                 "temp": 29
-            }
-        },
+            },
+            "heat_pump": heat_pump,
+            "gas_furnace": gas_furnace,
+            "is_connected": true
+
+            },
         "onboard_sensor": {
               "temp": round(random.uniform(23.0, 28.0), 1),
               "hum": round(random.uniform(50.0, 70.0), 1),
@@ -557,11 +565,16 @@ def calculate_low_cost():
 
         heating_source = "HP_HEAT"
         reason = "Electric heating has lower operating cost"
+        heat_pump = "ON"
+        gas_furnace = "OFF"
+
 
     elif A < B:
 
         heating_source = "FURNACE_HEAT"
         reason = "Gas heating has lower operating cost"
+        heat_pump = "OFF"
+        gas_furnace = "ON"
 
     else:
 
