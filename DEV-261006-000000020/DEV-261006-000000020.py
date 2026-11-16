@@ -58,7 +58,8 @@ REQUEST_TYPES = [
 ]
 
 
-
+heat_pump = "ON"
+gas_furnace = "OFF"
 
 # ==================================================
 # LOW-COST CONFIGURATION
